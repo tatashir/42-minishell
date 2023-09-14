@@ -12,7 +12,7 @@ int main() {
     while (1) {
         // プロンプトを表示
         printf("myshell> ");
-        fflush(stdout);
+        //fflush(stdout);
 
         // ユーザーからの入力を受け取る
         if (fgets(input, sizeof(input), stdin) == NULL) {
