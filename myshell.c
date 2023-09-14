@@ -5,11 +5,6 @@
 
 #define MAX_COMMAND_LENGTH 50
 
-// clearコマンドの実行
-void clearTerminal() {
-    system("clear");  // clearコマンドを呼び出す
-}
-
 int main() {
     char command[MAX_COMMAND_LENGTH];
 
@@ -31,7 +26,8 @@ int main() {
             system("date");
         } else if (strcmp(command, "clear") == 0) {
             // clearコマンドを実行
-            clearTerminal();
+            //clearTerminal();
+            system("clear");
         } else if (strcmp(command, "exit") == 0) {
             printf("exit\n");
             break;
