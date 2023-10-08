@@ -6,13 +6,13 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:34:37 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/08 22:12:57 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/08 22:21:38 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int builtin_cd_env(char *key)
+static int	builtin_cd_env(char *key)
 {
 	char	*val;
 
