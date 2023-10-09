@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:35:27 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/09 20:39:03 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:53:54 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	(*builtin_getfunc(char *arg))(char *argv[])
 	return (0);
 }
 
-void	exec_builtin(t_cmd *cmd, int(*builtin)(char *arg[]))
+void	exec_builtin(t_cmd *cmd, int (*builtin)(char *arg[]))
 {
 	int	tmp_fd[2];
 	int	use_fd[2];
