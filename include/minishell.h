@@ -6,12 +6,22 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:28:52 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/08 22:21:58 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/09 20:49:38 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+typedef struct s_cmd {
+	char			*path;
+	char			**arg;
+	t_fd			*input;
+	t_fd			*output;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+	pid_t			pid;
+}	t_cmd;
 
 # include <unistd.h>
 # include <stdio.h>

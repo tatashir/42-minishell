@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:35:00 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/09 16:32:28 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:43:20 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ int	builtin_exit(char *argv[])
 		status = g_shell.status;
 	else if (argv[2] == NULL)
 	{
-		if ()
+		if (strisdigit(argv[1]))
+			status = ft_atoi(argv[1]);
+		else
+		{
+			ft_putendl_fd(MSG_ARG_NOTNUM, STDERR_FILENO);
+			status = 0xff;
+		}
 	}
+	else
+	{
+		ft_putendl_fd(MSG_ARG_MANY, STDERR_FILENO);
+		return (1);
+	}
+	exit(status);
 }
