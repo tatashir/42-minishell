@@ -6,7 +6,7 @@
 #    By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 20:37:48 by tatashir          #+#    #+#              #
-#    Updated: 2023/10/12 00:37:18 by tatashir         ###   ########.fr        #
+#    Updated: 2023/10/12 00:56:36 by tatashir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SRC			= ms_main.c \
 			  ms_lexer.c \
 			  ms_lexer_gettoken.c \
 			  ms_lexer_string.c \
-			  ms_lexer_string_env.c \
 			  ms_lexer_string_lst.c \
 			  ms_lexer_tokenlen.c \
 			  ms_parser.c \
@@ -40,13 +39,14 @@ SRC			= ms_main.c \
 			  ms_builtin_env.c \
 			  ms_builtin_exit.c \
 			  ms_builtin_export.c \
-			  ms_builtin_pwd.c \
 			  ms_builtin_unset.c \
 			  ms_lstclear.c \
 			  ms_map_lst2map.c \
 			  ms_map_clear.c \
 			  ms_map_size.c \
 			  ms_strisdigit.c \
+			  ms_lexer_string_env.c \
+			  ms_builtin_pwd.c \
 			  ms_utils.c
 
 SRCDIR		= ./src
