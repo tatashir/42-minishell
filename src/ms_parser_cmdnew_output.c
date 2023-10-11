@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser_cmdnew_output.c                          :+:      :+:    :+:   */
+/*   parser_cmdnew_output.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static bool	ms_parser_output_sub(t_fd *output, t_token *token, size_t *i_token)
+static bool	parser_output_sub(t_fd *output, t_token *token, size_t *i_token)
 {
 	ssize_t	i_output;
 
@@ -38,19 +38,19 @@ static bool	ms_parser_output_sub(t_fd *output, t_token *token, size_t *i_token)
 	return (true);
 }
 
-t_fd	*ms_parser_cmdnew_output(t_token *token, size_t i_token)
+t_fd	*parser_cmdnew_output(t_token *token, size_t i_token)
 {
 	t_fd	*output;
 	ssize_t	size;
 
-	size = ms_parser_cmdnew_fdsize(token, i_token, FLAG_OUT);
+	size = parser_cmdnew_fdsize(token, i_token, FLAG_OUT);
 	if (size == -1)
 		return (print_err_set_status_return_null(\
 				MSG_SYNTAX_ERR, 258));
 	output = (t_fd *)malloc((size + 1) * sizeof(t_fd));
 	if (output == NULL)
 		exit(EXIT_FAILURE);
-	if (ms_parser_output_sub(output, token, &i_token) == false)
+	if (parser_output_sub(output, token, &i_token) == false)
 	{
 		free(output);
 		return (print_err_set_status_return_null(\

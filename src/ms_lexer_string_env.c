@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer_string_env.c                              :+:      :+:    :+:   */
+/*   lexer_string_env.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_list	*ms_expand_special_env(char *line, size_t *pos)
+static t_list	*expand_special_env(char *line, size_t *pos)
 {
 	if (line[*pos] == '?')
 	{
@@ -27,7 +27,7 @@ static t_list	*ms_expand_special_env(char *line, size_t *pos)
 	return (NULL);
 }
 
-t_list	*ms_expand_envvar_dquote(char *line, size_t len)
+t_list	*expand_envvar_dquote(char *line, size_t len)
 {
 	size_t	pos;
 	char	*dollar;
@@ -40,12 +40,12 @@ t_list	*ms_expand_envvar_dquote(char *line, size_t len)
 		dollar = ft_strchr(&line[pos], CHRS_QUOTE[0]);
 		errno = 0;
 		if (dollar == &line[pos])
-			ft_lstadd_back(&head, ms_expand_envvar(line, &pos, len - pos));
+			ft_lstadd_back(&head, expand_envvar(line, &pos, len - pos));
 		else
 		{
 			if (dollar == NULL || dollar >= line + len)
 				dollar = line + len;
-			ms_lexer_string_lstadd_back_substr(&head, line, \
+			lexer_string_lstadd_back_substr(&head, line, \
 				pos, dollar - &line[pos]);
 			pos = dollar - line;
 		}
@@ -55,12 +55,12 @@ t_list	*ms_expand_envvar_dquote(char *line, size_t len)
 	return (head);
 }
 
-bool	ms_isenvchar(int c)
+bool	isenvchar(int c)
 {
 	return (ft_isalnum(c) || c == '_');
 }
 
-t_list	*ms_expand_envvar(char *line, size_t *pos, size_t len)
+t_list	*expand_envvar(char *line, size_t *pos, size_t len)
 {
 	size_t	i;
 	char	*env_key;
@@ -69,8 +69,8 @@ t_list	*ms_expand_envvar(char *line, size_t *pos, size_t len)
 	*pos += 1;
 	i = 0;
 	if (line[*pos] == '?' || ft_isdigit(line[*pos]))
-		return (ms_expand_special_env(line, pos));
-	while (i + 1 < len && line[*pos + i] && ms_isenvchar(line[*pos + i]))
+		return (expand_special_env(line, pos));
+	while (i + 1 < len && line[*pos + i] && isenvchar(line[*pos + i]))
 		i++;
 	if (i == 0)
 		return (ft_lstnew(ft_strdup(STR_EXPAND)));
@@ -78,7 +78,7 @@ t_list	*ms_expand_envvar(char *line, size_t *pos, size_t len)
 	*pos += i;
 	if (env_key == NULL)
 		exit(EXIT_FAILURE);
-	env_val = ms_getenv_val(env_key);
+	env_val = getenv_val(env_key);
 	free(env_key);
 	if (env_val == NULL)
 		return (NULL);

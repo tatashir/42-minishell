@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser.c                                        :+:      :+:    :+:   */
+/*   parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	*ms_clear_cmd_and_return_null(t_cmd *head)
+void	*clear_cmd_and_return_null(t_cmd *head)
 {
 	t_cmd	*cur;
 	t_cmd	*next;
@@ -31,7 +31,7 @@ void	*ms_clear_cmd_and_return_null(t_cmd *head)
 	return (NULL);
 }
 
-static bool	ms_parser_chktokenflag(t_token *token)
+static bool	parser_chktokenflag(t_token *token)
 {
 	size_t	idx;
 
@@ -49,29 +49,29 @@ static bool	ms_parser_chktokenflag(t_token *token)
 	return (true);
 }
 
-t_cmd	*ms_parser(t_token *token)
+t_cmd	*parser(t_token *token)
 {
 	size_t	idx;
 	t_cmd	*head;
 	t_cmd	*cur;
 
 	g_shell.heredoc_sigint = false;
-	if (!ms_parser_chktokenflag(token))
+	if (!parser_chktokenflag(token))
 		return (print_err_set_status_return_null(\
 				MSG_SYNTAX_ERR, 258));
 	idx = 0;
-	head = ms_parser_cmdnew(token, &idx);
+	head = parser_cmdnew(token, &idx);
 	if (head == NULL)
 		return (NULL);
 	cur = head;
 	while (token[idx++].flag == FLAG_PIPE)
 	{
-		cur->next = ms_parser_cmdnew(token, &idx);
+		cur->next = parser_cmdnew(token, &idx);
 		if (cur->next != NULL)
 			cur->next->prev = cur;
 		cur = cur->next;
 		if (cur == NULL)
-			return (ms_clear_cmd_and_return_null(head));
+			return (clear_cmd_and_return_null(head));
 	}
 	return (head);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer.c                                         :+:      :+:    :+:   */
+/*   lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static size_t	ms_lexer_tokensize(char *line)
+static size_t	lexer_tokensize(char *line)
 {
 	size_t	size;
 	size_t	pos;
@@ -26,7 +26,7 @@ static size_t	ms_lexer_tokensize(char *line)
 	{
 		while (*(line + pos) == CHRS_DELIM[0])
 			pos++;
-		len = ms_lexer_tokenlen(line + pos);
+		len = lexer_tokenlen(line + pos);
 		if (len > 0)
 			size++;
 		pos += len;
@@ -34,15 +34,15 @@ static size_t	ms_lexer_tokensize(char *line)
 	return (size);
 }
 
-t_token	*ms_lexer(char *line)
+t_token	*lexer(char *line)
 {
 	t_token	*token;
 	size_t	size;
 
-	size = ms_lexer_tokensize(line);
+	size = lexer_tokensize(line);
 	token = (t_token *)malloc((size + 1) * sizeof(t_token));
 	if (token == NULL)
 		exit(ENOMEM);
-	ms_lexer_gettoken(token, line);
+	lexer_gettoken(token, line);
 	return (token);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer_string_lst.c                              :+:      :+:    :+:   */
+/*   lexer_string_lst.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ms_lexer_string_lstadd_back_substr(t_list **head, char *line, \
+void	lexer_string_lstadd_back_substr(t_list **head, char *line, \
 	size_t pos, size_t len)
 {
 	char	*substr;
@@ -24,7 +24,7 @@ void	ms_lexer_string_lstadd_back_substr(t_list **head, char *line, \
 	return ;
 }
 
-char	*ms_lexer_string_lst_strjoin(t_list *head)
+char	*lexer_string_lst_strjoin(t_list *head)
 {
 	size_t	joined_str_size;
 	char	*joined_str;

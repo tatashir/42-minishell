@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer_tokenlen.c                                :+:      :+:    :+:   */
+/*   lexer_tokenlen.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static size_t	ms_lexer_tokenlen_delim(char *line)
+static size_t	lexer_tokenlen_delim(char *line)
 {
 	int		ch;
 	size_t	pos;
@@ -26,7 +26,7 @@ static size_t	ms_lexer_tokenlen_delim(char *line)
 	return (pos);
 }
 
-size_t	ms_lexer_tokenlen_quoted(char *line)
+size_t	lexer_tokenlen_quoted(char *line)
 {
 	int		ch;
 	char	*line_end;
@@ -40,7 +40,7 @@ size_t	ms_lexer_tokenlen_quoted(char *line)
 	return (line_end - line + 1);
 }
 
-size_t	ms_lexer_tokenlen(char *line)
+size_t	lexer_tokenlen(char *line)
 {
 	size_t	pos;
 
@@ -48,11 +48,11 @@ size_t	ms_lexer_tokenlen(char *line)
 	if (line == NULL || *line == '\0')
 		return (0);
 	else if (ft_strchr(&CHRS_DELIM[1], *(line + pos)))
-		return (ms_lexer_tokenlen_delim(line + pos));
+		return (lexer_tokenlen_delim(line + pos));
 	while (*(line + pos))
 	{
 		if (ft_strchr(&CHRS_QUOTE[1], *(line + pos)))
-			pos += ms_lexer_tokenlen_quoted(line + pos);
+			pos += lexer_tokenlen_quoted(line + pos);
 		else if (ft_strchr(CHRS_DELIM, *(line + pos)))
 			return (pos);
 		else
@@ -61,7 +61,7 @@ size_t	ms_lexer_tokenlen(char *line)
 	return (pos);
 }
 
-size_t	ms_lexer_tokenlen_plain(char *line)
+size_t	lexer_tokenlen_plain(char *line)
 {
 	size_t		i;
 

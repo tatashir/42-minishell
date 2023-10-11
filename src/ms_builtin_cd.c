@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_builtin_cd.c                                    :+:      :+:    :+:   */
+/*   builtin_cd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	ms_builtin_cd_export(char *key, char *val)
+static int	builtin_cd_export(char *key, char *val)
 {
 	char	*keyval;
 	size_t	len;
@@ -25,63 +25,63 @@ static int	ms_builtin_cd_export(char *key, char *val)
 		return (errno);
 	ft_strlcpy(keyval, key, len);
 	ft_strlcpy(keyval + len, val, ft_strlen(val) + 1);
-	ms_search_env_and_set(keyval);
+	search_env_and_set(keyval);
 	free(keyval);
 	return (0);
 }
 
-static int	ms_builtin_cd_chdir(char *path)
+static int	builtin_cd_chdir(char *path)
 {
 	if (path == NULL || chdir(path))
 	{
 		ft_putendl_fd(MSG_ENOENT, STDERR_FILENO);
 		return (1);
 	}
-	ms_builtin_cd_export(ENV_OLDPWD, ms_getenv_val("PWD"));
+	builtin_cd_export(ENV_OLDPWD, getenv_val("PWD"));
 	if (path[0] == '/' && path[1] == '/' && path[2] != '/')
 		getcwd(path + 1, PATH_MAX - 1);
 	else
 		getcwd(path, PATH_MAX);
-	ms_builtin_cd_export("PWD", path);
+	builtin_cd_export("PWD", path);
 	return (0);
 }
 
-static int	ms_builtin_cd_env(char	*key)
+static int	builtin_cd_env(char	*key)
 {
 	char	*val;
 
-	val = ms_getenv_val(key);
+	val = getenv_val(key);
 	if (val)
-		return (ms_builtin_cd_chdir(val));
+		return (builtin_cd_chdir(val));
 	else if (ft_strcmp(key, ENV_HOME) == 0)
 		ft_putendl_fd(MSG_NO_HOME, STDERR_FILENO);
 	else if (ft_strcmp(key, ENV_OLDPWD) == 0)
 		ft_putendl_fd(MSG_NO_OLDPWD, STDERR_FILENO);
 	else
-		return (ms_builtin_cd_chdir(NULL));
+		return (builtin_cd_chdir(NULL));
 	return (1);
 }
 
-int	ms_builtin_cd(char	*argv[])
+int	builtin_cd(char	*argv[])
 {
 	char	path[PATH_MAX + 1];
 	int		status;
 
 	if (argv == NULL || argv[1] == NULL)
-		return (ms_builtin_cd_env(ENV_HOME));
+		return (builtin_cd_env(ENV_HOME));
 	else if (argv[1][0] == '~' \
 		&& (argv[1][1] == '/' || argv[1][1] == '\0'))
 	{
-		if (ms_getenv_val(ENV_HOME) == NULL)
-			return (ms_builtin_cd_env(ENV_HOME));
-		ms_setpath_home(path, argv[1]);
+		if (getenv_val(ENV_HOME) == NULL)
+			return (builtin_cd_env(ENV_HOME));
+		setpath_home(path, argv[1]);
 	}
 	else if (ft_strcmp(argv[1], STR_OLDPWD) == 0)
-		return (ms_builtin_cd_env(ENV_OLDPWD));
+		return (builtin_cd_env(ENV_OLDPWD));
 	else if (argv[1][0] == '/')
-		ms_setpath_absolute(path, argv[1]);
+		setpath_absolute(path, argv[1]);
 	else
-		ms_setpath_relative(path, argv[1]);
-	status = ms_builtin_cd_chdir(path);
+		setpath_relative(path, argv[1]);
+	status = builtin_cd_chdir(path);
 	return (status);
 }

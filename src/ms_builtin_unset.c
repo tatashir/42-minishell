@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_builtin_unset.c                                 :+:      :+:    :+:   */
+/*   builtin_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void	ms_search_env_and_unset(char *env_key)
+static void	search_env_and_unset(char *env_key)
 {
 	t_list	*cur;
 	t_list	*prev;
@@ -22,7 +22,7 @@ static void	ms_search_env_and_unset(char *env_key)
 	prev = NULL;
 	while (cur != NULL)
 	{
-		if (ms_is_same_envkey(cur->content, env_key))
+		if (is_same_envkey(cur->content, env_key))
 		{
 			if (prev == NULL)
 				g_shell.environ = cur->next;
@@ -41,7 +41,7 @@ static void	ms_search_env_and_unset(char *env_key)
 	}
 }
 
-int	ms_builtin_unset(char *argv[])
+int	builtin_unset(char *argv[])
 {
 	int	return_status;
 	int	i;
@@ -50,13 +50,13 @@ int	ms_builtin_unset(char *argv[])
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		if (ms_is_validenv(argv[i]) == false)
+		if (is_validenv(argv[i]) == false)
 		{
 			printf(MSG_INVAL_ID, "unset", argv[i++]);
 			return_status = 1;
 			continue ;
 		}
-		ms_search_env_and_unset(argv[i]);
+		search_env_and_unset(argv[i]);
 		i++;
 	}
 	return (return_status);

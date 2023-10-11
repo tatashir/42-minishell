@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_getpath.c                                       :+:      :+:    :+:   */
+/*   getpath.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*ms_getpath_join(char *dirpath, char *name)
+char	*getpath_join(char *dirpath, char *name)
 {
 	char	*path;
 	size_t	len_dir;
@@ -29,21 +29,21 @@ char	*ms_getpath_join(char *dirpath, char *name)
 	return (path);
 }
 
-char	*ms_getpath_relative(char *name)
+char	*getpath_relative(char *name)
 {
 	char	*path;
 	char	*pwd;
 	char	cwd[PATH_MAX + 1];
 
-	pwd = ms_getenv_val("PWD");
+	pwd = getenv_val("PWD");
 	if (pwd == NULL)
-		path = ms_getpath_join(getcwd(cwd, PATH_MAX), name);
+		path = getpath_join(getcwd(cwd, PATH_MAX), name);
 	else
-		path = ms_getpath_join(pwd, name);
+		path = getpath_join(pwd, name);
 	return (path);
 }
 
-char	*ms_getpath_envpath_iter(char *name, char **envpath_split)
+char	*getpath_envpath_iter(char *name, char **envpath_split)
 {
 	char		*cmdpath;
 	struct stat	stat_buf;
@@ -54,9 +54,9 @@ char	*ms_getpath_envpath_iter(char *name, char **envpath_split)
 	i = 0;
 	while (envpath_split[i])
 	{
-		cmdpath = ms_getpath_join(envpath_split[i], name);
+		cmdpath = getpath_join(envpath_split[i], name);
 		if (cmdpath == NULL)
-			return (ms_map_clear(envpath_split, ms_map_size(envpath_split)));
+			return (map_clear(envpath_split, map_size(envpath_split)));
 		stat(cmdpath, &stat_buf);
 		if ((stat_buf.st_mode & S_IFMT) == S_IFREG)
 			return (cmdpath);
@@ -66,34 +66,34 @@ char	*ms_getpath_envpath_iter(char *name, char **envpath_split)
 	return (NULL);
 }
 
-char	*ms_getpath_envpath(char *name)
+char	*getpath_envpath(char *name)
 {
 	char		*cmdpath;
 	char		*envpath;
 	char		**envpath_split;
 
-	envpath = ms_getenv_val(ENV_PATH);
+	envpath = getenv_val(ENV_PATH);
 	if (envpath == NULL)
 		return (ft_strdup(name));
 	envpath_split = ft_split(envpath, ':');
 	if (envpath_split == NULL)
 		return (NULL);
-	cmdpath = ms_getpath_envpath_iter(name, envpath_split);
-	envpath_split = ms_map_clear(envpath_split, ms_map_size(envpath_split));
+	cmdpath = getpath_envpath_iter(name, envpath_split);
+	envpath_split = map_clear(envpath_split, map_size(envpath_split));
 	if (!cmdpath)
 		cmdpath = ft_strdup(STR_EMPTY);
 	return (cmdpath);
 }
 
-char	*ms_getpath_cmd(char *name)
+char	*getpath_cmd(char *name)
 {
 	if (name == NULL)
 		return (NULL);
-	if (ms_builtin_getfunc(name))
+	if (builtin_getfunc(name))
 		return (ft_strdup(name));
 	else if (*name == '/')
 		return (ft_strdup(name));
 	else if (ft_strchr(name, '/'))
-		return (ms_getpath_relative(name));
-	return (ms_getpath_envpath(name));
+		return (getpath_relative(name));
+	return (getpath_envpath(name));
 }

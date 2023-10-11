@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_sighandler.c                                    :+:      :+:    :+:   */
+/*   sighandler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	ms_sighandler_rl(int signum, siginfo_t *info, void *context)
+void	sighandler_rl(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
 	if (signum == SIGQUIT)
-		ms_builtin_exit(NULL);
+		builtin_exit(NULL);
 	if (signum == SIGINT)
 	{
 		g_shell.status = 1;
@@ -28,7 +28,7 @@ void	ms_sighandler_rl(int signum, siginfo_t *info, void *context)
 	}
 }
 
-void	ms_sighandler_rl_heredoc(int signum, siginfo_t *info, void *context)
+void	sighandler_rl_heredoc(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
@@ -39,7 +39,7 @@ void	ms_sighandler_rl_heredoc(int signum, siginfo_t *info, void *context)
 	}
 }
 
-void	ms_sighandler_exec(int signum, siginfo_t *info, void *context)
+void	sighandler_exec(int signum, siginfo_t *info, void *context)
 {
 	t_cmd	*cur;
 

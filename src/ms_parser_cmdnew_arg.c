@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser_cmdnew_arg.c                             :+:      :+:    :+:   */
+/*   parser_cmdnew_arg.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static size_t	ms_parser_cmdnew_arg_size(t_token *token, size_t idx)
+static size_t	parser_cmdnew_arg_size(t_token *token, size_t idx)
 {
 	size_t	size;
 
@@ -29,13 +29,13 @@ static size_t	ms_parser_cmdnew_arg_size(t_token *token, size_t idx)
 	return (size);
 }
 
-char	**ms_parser_cmdnew_arg(t_token *token, size_t i_token)
+char	**parser_cmdnew_arg(t_token *token, size_t i_token)
 {
 	char	**arg;
 	size_t	size;
 	size_t	i_arg;
 
-	size = ms_parser_cmdnew_arg_size(token, i_token);
+	size = parser_cmdnew_arg_size(token, i_token);
 	arg = (char **)malloc((size + 1) * sizeof(char *));
 	if (arg == NULL)
 		return (NULL);

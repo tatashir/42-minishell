@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_utils.c                                         :+:      :+:    :+:   */
+/*   utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -27,13 +27,13 @@ void	*print_err_set_status_return_null(char *str, int status)
 	return (NULL);
 }
 
-void	ms_init_fd(int fd[2])
+void	init_fd(int fd[2])
 {
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
 }
 
-bool	ms_is_directory(char *path)
+bool	is_directory(char *path)
 {
 	struct stat	buf;
 

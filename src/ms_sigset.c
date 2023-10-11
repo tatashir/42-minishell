@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_sigset.c                                        :+:      :+:    :+:   */
+/*   sigset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,11 +19,11 @@ void	sigset_rl(void)
 	ft_bzero(&sa, sizeof(t_sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = ms_sighandler_rl;
+	sa.sa_sigaction = sighandler_rl;
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	ms_sigset_noquit(void)
+void	sigset_noquit(void)
 {
 	t_sa	sa;
 
@@ -41,7 +41,7 @@ void	sigset_rl_heredoc(void)
 	ft_bzero(&sa, sizeof(t_sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = ms_sighandler_rl_heredoc;
+	sa.sa_sigaction = sighandler_rl_heredoc;
 	sigaction(SIGINT, &sa, NULL);
 }
 
@@ -52,7 +52,7 @@ void	sigset_exec(void)
 	ft_bzero(&sa, sizeof(t_sa));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = ms_sighandler_exec;
+	sa.sa_sigaction = sighandler_exec;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
 }

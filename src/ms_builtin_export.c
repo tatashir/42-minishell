@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_builtin_export.c                                :+:      :+:    :+:   */
+/*   builtin_export.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_list	*ms_lstnew_env(char *env_key)
+t_list	*lstnew_env(char *env_key)
 {
 	t_list	*new;
 
@@ -23,7 +23,7 @@ t_list	*ms_lstnew_env(char *env_key)
 	return (new);
 }
 
-void	ms_search_env_and_set(char *env_key)
+void	search_env_and_set(char *env_key)
 {
 	t_list	*cur;
 	t_list	*prev;
@@ -33,7 +33,7 @@ void	ms_search_env_and_set(char *env_key)
 	prev = NULL;
 	while (cur != NULL)
 	{
-		if (ms_is_same_envkey(cur->content, env_key))
+		if (is_same_envkey(cur->content, env_key))
 		{
 			free(cur->content);
 			env_key[ft_strlen(env_key)] = '=';
@@ -45,14 +45,14 @@ void	ms_search_env_and_set(char *env_key)
 		prev = cur;
 		cur = cur->next;
 	}
-	new = ms_lstnew_env(env_key);
+	new = lstnew_env(env_key);
 	if (prev == NULL)
 		g_shell.environ = new;
 	else
 		prev->next = new;
 }
 
-int	ms_set_environ(char **argv)
+int	set_environ(char **argv)
 {
 	int		return_status;
 	size_t	i;
@@ -69,19 +69,19 @@ int	ms_set_environ(char **argv)
 			continue ;
 		}
 		*eq = '\0';
-		if (ms_is_validenv(argv[i]) == false)
+		if (is_validenv(argv[i]) == false)
 		{
 			*eq = '=';
 			printf(MSG_INVAL_ID, "export", argv[i++]);
 			return_status = 1;
 		}
 		else
-			ms_search_env_and_set(argv[i++]);
+			search_env_and_set(argv[i++]);
 	}
 	return (return_status);
 }
 
-static int	ms_print_env_with_declare(void)
+static int	print_env_with_declare(void)
 {
 	t_list	*cur;
 	char	*eq;
@@ -100,12 +100,12 @@ static int	ms_print_env_with_declare(void)
 	return (0);
 }
 
-int	ms_builtin_export(char *argv[])
+int	builtin_export(char *argv[])
 {
 	int	return_status;
 
 	if (argv[1] == NULL)
-		return (ms_print_env_with_declare());
-	return_status = ms_set_environ(&argv[1]);
+		return (print_env_with_declare());
+	return_status = set_environ(&argv[1]);
 	return (return_status);
 }

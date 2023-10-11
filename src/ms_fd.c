@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_fd.c                                            :+:      :+:    :+:   */
+/*   fd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-static void	ms_fd_close_fds(t_fd *fd);
+static void	fd_close_fds(t_fd *fd);
 
-void	ms_fd_close(int fd[2])
+void	fd_close(int fd[2])
 {
 	if (fd[0] != STDIN_FILENO)
 		close(fd[0]);
@@ -22,13 +22,13 @@ void	ms_fd_close(int fd[2])
 		close(fd[1]);
 }
 
-void	ms_fd_copy(int dest[2], int src[2])
+void	fd_copy(int dest[2], int src[2])
 {
 	dest[0] = src[0];
 	dest[1] = src[1];
 }
 
-int	ms_fd_last_fd(t_fd *fd_lst)
+int	fd_last_fd(t_fd *fd_lst)
 {
 	size_t	i;
 	int		fd;
@@ -43,7 +43,7 @@ int	ms_fd_last_fd(t_fd *fd_lst)
 	return (fd);
 }
 
-void	ms_fd_close_fds(t_fd *fd)
+void	fd_close_fds(t_fd *fd)
 {
 	size_t	i;
 
@@ -56,15 +56,15 @@ void	ms_fd_close_fds(t_fd *fd)
 	}
 }
 
-void	ms_fd_close_all_cmd(t_cmd *cmd)
+void	fd_close_all_cmd(t_cmd *cmd)
 {
 	t_cmd	*cur;
 
 	cur = cmd;
 	while (cur != NULL)
 	{
-		ms_fd_close_fds(cur->input);
-		ms_fd_close_fds(cur->output);
+		fd_close_fds(cur->input);
+		fd_close_fds(cur->output);
 		cur = cur->next;
 	}
 }

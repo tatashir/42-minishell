@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser_cmdnew_input.c                           :+:      :+:    :+:   */
+/*   parser_cmdnew_input.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -53,12 +53,12 @@ static int	get_heredoc_pipe(const char *eof)
 	}
 	else
 	{
-		ms_fd_close(fd);
+		fd_close(fd);
 		return (-1);
 	}
 }
 
-static bool	ms_parser_input_sub(t_fd *input, t_token *token, size_t *i_token)
+static bool	parser_input_sub(t_fd *input, t_token *token, size_t *i_token)
 {
 	ssize_t	i_input;
 
@@ -82,12 +82,12 @@ static bool	ms_parser_input_sub(t_fd *input, t_token *token, size_t *i_token)
 	return (true);
 }
 
-t_fd	*ms_parser_cmdnew_input(t_token *token, size_t i_token)
+t_fd	*parser_cmdnew_input(t_token *token, size_t i_token)
 {
 	t_fd	*input;
 	ssize_t	size;
 
-	size = ms_parser_cmdnew_fdsize(token, i_token, FLAG_IN);
+	size = parser_cmdnew_fdsize(token, i_token, FLAG_IN);
 	if (size == -1)
 		return (print_err_set_status_return_null(\
 				MSG_SYNTAX_ERR, 258));
@@ -95,7 +95,7 @@ t_fd	*ms_parser_cmdnew_input(t_token *token, size_t i_token)
 	if (input == NULL)
 		exit(EXIT_FAILURE);
 	errno = 0;
-	if (ms_parser_input_sub(input, token, &i_token) == false)
+	if (parser_input_sub(input, token, &i_token) == false)
 	{
 		free(input);
 		if (errno == 0)

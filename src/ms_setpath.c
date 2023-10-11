@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_setpath.c                                       :+:      :+:    :+:   */
+/*   setpath.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,23 +12,23 @@
 
 #include "minishell.h"
 
-void	ms_setpath_home(char *path, char *arg)
+void	setpath_home(char *path, char *arg)
 {
-	ft_strlcpy(path, ms_getenv_val(ENV_HOME), PATH_MAX + 1);
+	ft_strlcpy(path, getenv_val(ENV_HOME), PATH_MAX + 1);
 	ft_strlcat(path, &arg[1], PATH_MAX + 1);
 }
 
-void	ms_setpath_absolute(char *path, char *arg)
+void	setpath_absolute(char *path, char *arg)
 {
 	ft_strlcpy(path, arg, PATH_MAX + 1);
 }
 
-void	ms_setpath_relative(char *path, char *arg)
+void	setpath_relative(char *path, char *arg)
 {
 	char	*pwd;
 	char	cwd[PATH_MAX + 1];
 
-	pwd = ms_getenv_val("PWD");
+	pwd = getenv_val("PWD");
 	if (pwd == NULL)
 		ft_strlcpy(path, getcwd(cwd, PATH_MAX), PATH_MAX + 1);
 	else

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lstclear.c                                      :+:      :+:    :+:   */
+/*   lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	*ms_lstclear_return_null(t_list **head)
+void	*lstclear_return_null(t_list **head)
 {
 	ft_lstclear(head, &free);
 	return (NULL);

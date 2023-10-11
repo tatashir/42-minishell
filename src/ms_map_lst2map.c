@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_map_lst2map.c                                   :+:      :+:    :+:   */
+/*   map_lst2map.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**ms_map_lst2map(t_list *lst)
+char	**map_lst2map(t_list *lst)
 {
 	char	**map;
 	t_list	*ele;

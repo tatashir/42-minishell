@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_builtin_pwd.c                                   :+:      :+:    :+:   */
+/*   builtin_pwd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ms_builtin_pwd(char *argv[])
+int	builtin_pwd(char *argv[])
 {
 	char	cwd[PATH_MAX + 1];
 	char	*pwd;
@@ -21,7 +21,7 @@ int	ms_builtin_pwd(char *argv[])
 		return (0);
 	errno = 0;
 	getcwd(cwd, PATH_MAX);
-	pwd = ms_getenv_val("PWD");
+	pwd = getenv_val("PWD");
 	if (pwd != NULL && ft_strcmp(cwd, pwd + 1) == 0)
 		ft_strlcpy(cwd, pwd, PATH_MAX + 1);
 	ft_putendl_fd(cwd, STDOUT_FILENO);

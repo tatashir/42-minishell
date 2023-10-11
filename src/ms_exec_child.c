@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_exec_child.c                                    :+:      :+:    :+:   */
+/*   exec_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ms_exec_a_cmd_sub(t_cmd *cmd, char **envp)
+void	exec_a_cmd_sub(t_cmd *cmd, char **envp)
 {
 	int		(*builtin)(char *arg[]);
 
@@ -21,12 +21,12 @@ void	ms_exec_a_cmd_sub(t_cmd *cmd, char **envp)
 		ft_putendl_fd(MSG_NO_CMD, STDERR_FILENO);
 		exit(127);
 	}
-	if (ms_is_directory(cmd->path))
+	if (is_directory(cmd->path))
 	{
 		ft_putendl_fd(MSG_ISDIR, STDERR_FILENO);
 		exit(126);
 	}
-	builtin = ms_builtin_getfunc(cmd->arg[0]);
+	builtin = builtin_getfunc(cmd->arg[0]);
 	if (builtin != NULL)
 		exit(builtin(cmd->arg));
 	else
@@ -42,29 +42,29 @@ void	ms_exec_a_cmd_sub(t_cmd *cmd, char **envp)
 }
 
 void	\
-	ms_exec_a_cmd(t_cmd *cmd, int prev_pipe[2], int now_pipe[2], char **envp)
+	exec_a_cmd(t_cmd *cmd, int prev_pipe[2], int now_pipe[2], char **envp)
 {
 	int		fd[2];
 
 	fd[0] = prev_pipe[0];
 	fd[1] = now_pipe[1];
-	if (ms_fd_last_fd(cmd->input) > 0)
-		fd[0] = ms_fd_last_fd(cmd->input);
-	if (ms_fd_last_fd(cmd->output) > 0)
-		fd[1] = ms_fd_last_fd(cmd->output);
+	if (fd_last_fd(cmd->input) > 0)
+		fd[0] = fd_last_fd(cmd->input);
+	if (fd_last_fd(cmd->output) > 0)
+		fd[1] = fd_last_fd(cmd->output);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
-		ms_fd_close(fd);
-		ms_fd_close(prev_pipe);
-		ms_fd_close(now_pipe);
-		ms_exec_a_cmd_sub(cmd, envp);
+		fd_close(fd);
+		fd_close(prev_pipe);
+		fd_close(now_pipe);
+		exec_a_cmd_sub(cmd, envp);
 	}
 }
 
-void	ms_handle_status(int status)
+void	handle_status(int status)
 {
 	if (WIFEXITED(status) && g_shell.kill_child == false)
 		g_shell.status = WEXITSTATUS(status);
@@ -72,7 +72,7 @@ void	ms_handle_status(int status)
 		return ;
 }
 
-void	ms_wait_all(t_cmd *cmd_lst)
+void	wait_all(t_cmd *cmd_lst)
 {
 	int		status;
 	t_cmd	*now_cmd;
@@ -81,37 +81,37 @@ void	ms_wait_all(t_cmd *cmd_lst)
 	while (now_cmd != NULL)
 	{
 		waitpid(now_cmd->pid, &status, 0);
-		ms_handle_status(status);
+		handle_status(status);
 		now_cmd = now_cmd->next;
 	}
 	g_shell.kill_child = false;
-	ms_fd_close_all_cmd(cmd_lst);
+	fd_close_all_cmd(cmd_lst);
 	return ;
 }
 
-void	ms_exec_in_child_process(t_cmd *cmd)
+void	exec_in_child_process(t_cmd *cmd)
 {
 	int		prev_pipe[2];
 	int		now_pipe[2];
 	t_cmd	*now_cmd;
 	char	**envp;
 
-	envp = ms_map_lst2map(g_shell.environ);
+	envp = map_lst2map(g_shell.environ);
 	if (envp == NULL)
 		return ;
-	ms_init_fd(prev_pipe);
+	init_fd(prev_pipe);
 	now_cmd = cmd;
 	while (now_cmd != NULL)
 	{
 		if (now_cmd->next != NULL)
 			pipe(now_pipe);
 		else
-			ms_init_fd(now_pipe);
-		ms_exec_a_cmd(now_cmd, prev_pipe, now_pipe, envp);
-		ms_fd_close(prev_pipe);
-		ms_fd_copy(prev_pipe, now_pipe);
+			init_fd(now_pipe);
+		exec_a_cmd(now_cmd, prev_pipe, now_pipe, envp);
+		fd_close(prev_pipe);
+		fd_copy(prev_pipe, now_pipe);
 		now_cmd = now_cmd->next;
 	}
 	free(envp);
-	return (ms_wait_all(cmd));
+	return (wait_all(cmd));
 }

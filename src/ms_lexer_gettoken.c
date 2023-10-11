@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_lexer_gettoken.c                                :+:      :+:    :+:   */
+/*   lexer_gettoken.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	ms_lexer_gettoken_classify(char *line)
+static int	lexer_gettoken_classify(char *line)
 {
 	int		flag;
 
@@ -36,7 +36,7 @@ static int	ms_lexer_gettoken_classify(char *line)
 	return (0x00);
 }
 
-void	ms_lexer_gettoken(t_token *token, char *line)
+void	lexer_gettoken(t_token *token, char *line)
 {
 	char	*str;
 	size_t	pos;
@@ -49,12 +49,12 @@ void	ms_lexer_gettoken(t_token *token, char *line)
 	{
 		while (*(line + pos) == ' ')
 			pos++;
-		len = ms_lexer_tokenlen(line + pos);
+		len = lexer_tokenlen(line + pos);
 		str = ft_substr(line, pos, len);
 		if (str == NULL)
 			exit(ENOMEM);
-		token[i].flag = ms_lexer_gettoken_classify(str);
-		token[i].str = ms_lexer_string(str);
+		token[i].flag = lexer_gettoken_classify(str);
+		token[i].str = lexer_string(str);
 		free(str);
 		pos += len;
 		if (token[i].str != NULL)

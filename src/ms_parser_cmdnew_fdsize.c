@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_parser_cmdnew_fdsize.c                          :+:      :+:    :+:   */
+/*   parser_cmdnew_fdsize.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-size_t	ms_parser_cmdnew_fdsize(t_token *token, size_t idx, int flag)
+size_t	parser_cmdnew_fdsize(t_token *token, size_t idx, int flag)
 {
 	ssize_t	size;
 

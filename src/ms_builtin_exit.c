@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_builtin_exit.c                                  :+:      :+:    :+:   */
+/*   builtin_exit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ms_builtin_exit(char *argv[])
+int	builtin_exit(char *argv[])
 {
 	int	status;
 
@@ -21,7 +21,7 @@ int	ms_builtin_exit(char *argv[])
 		status = g_shell.status;
 	else if (argv[2] == NULL)
 	{
-		if (ms_strisdigit(argv[1]))
+		if (strisdigit(argv[1]))
 			status = ft_atoi(argv[1]);
 		else
 		{
