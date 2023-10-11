@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:34:46 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 05:16:27 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 05:22:01 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	builtin_echo(char *argv[])
 	i = start;
 	while (argv[i] != NULL)
 	{
-		if (i > start)
+		if (start < i)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 		ft_putstr_fd(argv[i++], STDOUT_FILENO);
 	}
