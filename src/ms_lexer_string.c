@@ -6,43 +6,11 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:36:10 by tatashir          #+#    #+#             */
-/*   Updated: 2023/08/07 20:36:10 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:57:03 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char		*ms_lexer_string(char *line);
-static void	ms_lexer_string_quote(char *line, size_t *pos, t_list **head);
-static void	ms_lexer_string_dquote(char *line, size_t *pos, t_list **head);
-static void	ms_lexer_string_dollar(char *line, size_t *pos, t_list **head);
-static void	ms_lexer_string_plain(char *line, size_t *pos, t_list **head);
-
-char	*ms_lexer_string(char *line)
-{
-	size_t		pos;
-	t_list		*head;
-	char		*expand_str;
-
-	pos = 0;
-	head = NULL;
-	while (line[pos])
-	{
-		if (line[pos] == CHRS_QUOTE[2])
-			ms_lexer_string_quote(line, &pos, &head);
-		else if (line[pos] == CHRS_QUOTE[1])
-			ms_lexer_string_dquote(line, &pos, &head);
-		else if (line[pos] == CHRS_QUOTE[0])
-			ms_lexer_string_dollar(line, &pos, &head);
-		else
-			ms_lexer_string_plain(line, &pos, &head);
-	}
-	if (head == NULL)
-		return (NULL);
-	expand_str = ms_lexer_string_lst_strjoin(head);
-	ft_lstclear(&head, &free);
-	return (expand_str);
-}
 
 static void	ms_lexer_string_quote(char *line, size_t *pos, t_list **head)
 {
@@ -121,4 +89,30 @@ static void	ms_lexer_string_plain(char *line, size_t *pos, t_list **head)
 			exit(EXIT_FAILURE);
 	}
 	*pos += stride;
+}
+
+char	*ms_lexer_string(char *line)
+{
+	size_t		pos;
+	t_list		*head;
+	char		*expand_str;
+
+	pos = 0;
+	head = NULL;
+	while (line[pos])
+	{
+		if (line[pos] == CHRS_QUOTE[2])
+			ms_lexer_string_quote(line, &pos, &head);
+		else if (line[pos] == CHRS_QUOTE[1])
+			ms_lexer_string_dquote(line, &pos, &head);
+		else if (line[pos] == CHRS_QUOTE[0])
+			ms_lexer_string_dollar(line, &pos, &head);
+		else
+			ms_lexer_string_plain(line, &pos, &head);
+	}
+	if (head == NULL)
+		return (NULL);
+	expand_str = ms_lexer_string_lst_strjoin(head);
+	ft_lstclear(&head, &free);
+	return (expand_str);
 }
