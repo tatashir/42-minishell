@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:34:46 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 02:43:42 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 05:16:27 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	builtin_echo(char *argv[])
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		return (1);
 	}
-	print_nl = !(argv[1] && ft_strcmp(argv[1], OPTION_NONL) == 0);
+	print_nl = !(argv[1] && ft_strcmp(argv[1], "-n") == 0);
 	start = 2 - print_nl;
 	i = start;
 	while (argv[i] != NULL)

@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:28:52 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 01:29:44 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 05:17:13 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,6 @@ bool	is_directory(char *path);
 # define STR_QUOTE			"'"
 # define STR_DQUOTE			"\""
 # define STR_EXPAND			"$"
-
-# define OPTION_NONL		"-n"
 
 # define ENV_HOME			"HOME"
 # define ENV_PATH			"PATH"
