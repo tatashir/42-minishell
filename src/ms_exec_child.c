@@ -1,57 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_child.c                                       :+:      :+:    :+:   */
+/*   ms_exec_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:35:35 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/10 19:49:38 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:02:53 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_status(int status)
+void	ms_exec_a_cmd_sub(t_cmd *cmd, char **envp)
 {
-	if (WIFEXITED(status) && g_shell.kill_child == false)
-		g_shell.status = WEXITSTATUS(status);
-	else
-		return ;
-}
-
-void	wait_all(t_cmd *cmd_lst)
-{
-	int		status;
-	t_cmd	*now_cmd;
-
-	now_cmd = cmd_lst;
-	while (now_cmd != NULL)
-	{
-		waitpid(now_cmd->pid, &status, 0);
-		handle_status(status);
-		now_cmd = now_cmd->next;
-	}
-	g_shell.kill_child = 0;
-	fd_close_all_cmd(cmd_lst);
-	return ;
-}
-
-void	exec_cmd_sub(t_cmd *cmd, char **envp)
-{
-	int	(*builtin)(char *arg[]);
+	int		(*builtin)(char *arg[]);
 
 	if (cmd->path[0] == '\0')
 	{
 		ft_putendl_fd(MSG_NO_CMD, STDERR_FILENO);
 		exit(127);
 	}
-	if (is_directory(cmd->path))
+	if (ms_is_directory(cmd->path))
 	{
 		ft_putendl_fd(MSG_ISDIR, STDERR_FILENO);
 		exit(126);
 	}
-	builtin = builtin_getfunc(cmd->arg[0]);
+	builtin = ms_builtin_getfunc(cmd->arg[0]);
 	if (builtin != NULL)
 		exit(builtin(cmd->arg));
 	else
@@ -66,51 +41,77 @@ void	exec_cmd_sub(t_cmd *cmd, char **envp)
 	}
 }
 
-void	exec_cmd(t_cmd *cmd, int prev_pipe[2], int now_pipe[2], char **envp)
+void	\
+	ms_exec_a_cmd(t_cmd *cmd, int prev_pipe[2], int now_pipe[2], char **envp)
 {
-	int	fd[2];
+	int		fd[2];
 
 	fd[0] = prev_pipe[0];
 	fd[1] = now_pipe[1];
-	if (0 < fd_last_fd(cmd->input))
-		fd[0] = fd_last_fd(cmd->input);
-	if (0 < fd_last_fd(cmd->output))
-		fd[1] = fd_last_fd(cmd->output);
+	if (ms_fd_last_fd(cmd->input) > 0)
+		fd[0] = ms_fd_last_fd(cmd->input);
+	if (ms_fd_last_fd(cmd->output) > 0)
+		fd[1] = ms_fd_last_fd(cmd->output);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
 		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[1], STDOUT_FILENO);
-		fd_close(fd);
-		fd_close(prev_pipe);
-		fd_close(now_pipe);
-		exec_cmd_sub(cmd, envp);
+		ms_fd_close(fd);
+		ms_fd_close(prev_pipe);
+		ms_fd_close(now_pipe);
+		ms_exec_a_cmd_sub(cmd, envp);
 	}
 }
 
-void	exec_in_child(t_cmd *cmd)
+void	ms_handle_status(int status)
+{
+	if (WIFEXITED(status) && g_shell.kill_child == false)
+		g_shell.status = WEXITSTATUS(status);
+	else
+		return ;
+}
+
+void	ms_wait_all(t_cmd *cmd_lst)
+{
+	int		status;
+	t_cmd	*now_cmd;
+
+	now_cmd = cmd_lst;
+	while (now_cmd != NULL)
+	{
+		waitpid(now_cmd->pid, &status, 0);
+		ms_handle_status(status);
+		now_cmd = now_cmd->next;
+	}
+	g_shell.kill_child = false;
+	ms_fd_close_all_cmd(cmd_lst);
+	return ;
+}
+
+void	ms_exec_in_child_process(t_cmd *cmd)
 {
 	int		prev_pipe[2];
 	int		now_pipe[2];
 	t_cmd	*now_cmd;
 	char	**envp;
 
-	envp = map_lst2map(g_shell.environ);
+	envp = ms_map_lst2map(g_shell.environ);
 	if (envp == NULL)
 		return ;
-	init_fd(prev_pipe);
+	ms_init_fd(prev_pipe);
 	now_cmd = cmd;
 	while (now_cmd != NULL)
 	{
 		if (now_cmd->next != NULL)
 			pipe(now_pipe);
 		else
-			init_fd(now_pipe);
-		exec_cmd(now_cmd, prev_pipe, now_pipe, envp);
-		fd_close(prev_pipe);
-		fd_copy(prev_pipe, now_pipe);
+			ms_init_fd(now_pipe);
+		ms_exec_a_cmd(now_cmd, prev_pipe, now_pipe, envp);
+		ms_fd_close(prev_pipe);
+		ms_fd_copy(prev_pipe, now_pipe);
 		now_cmd = now_cmd->next;
 	}
 	free(envp);
-	return (wait_all(cmd));
+	return (ms_wait_all(cmd));
 }

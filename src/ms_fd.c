@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fd.c                                               :+:      :+:    :+:   */
+/*   ms_fd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:35:44 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/10 19:49:16 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/11 23:14:42 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fd_close(int fd[2])
+static void	ms_fd_close_fds(t_fd *fd);
+
+void	ms_fd_close(int fd[2])
 {
 	if (fd[0] != STDIN_FILENO)
 		close(fd[0]);
@@ -20,13 +22,13 @@ void	fd_close(int fd[2])
 		close(fd[1]);
 }
 
-void	ft_copy(int dest[2], int src[2])
+void	ms_fd_copy(int dest[2], int src[2])
 {
 	dest[0] = src[0];
 	dest[1] = src[1];
 }
 
-int	fd_last_fd(t_fd *fd_lst)
+int	ms_fd_last_fd(t_fd *fd_lst)
 {
 	size_t	i;
 	int		fd;
@@ -41,28 +43,28 @@ int	fd_last_fd(t_fd *fd_lst)
 	return (fd);
 }
 
-void	fd_close_all_cmd(t_cmd *cmd)
-{
-	t_cmd	*cur;
-
-	cur = cmd;
-	while (cur != NULL)
-	{
-		fd_close_fds(cur->input);
-		fd_close_fds(cur->output);
-		cur = cur->next;
-	}
-}
-
-void	fd_close_fds(t_fd *fd)
+void	ms_fd_close_fds(t_fd *fd)
 {
 	size_t	i;
 
 	i = 0;
 	while (fd[i].path != NULL)
 	{
-		if (STDERR_FILENO < fd[i].fd)
+		if (fd[i].fd > STDERR_FILENO)
 			close(fd[i].fd);
 		i++;
+	}
+}
+
+void	ms_fd_close_all_cmd(t_cmd *cmd)
+{
+	t_cmd	*cur;
+
+	cur = cmd;
+	while (cur != NULL)
+	{
+		ms_fd_close_fds(cur->input);
+		ms_fd_close_fds(cur->output);
+		cur = cur->next;
 	}
 }

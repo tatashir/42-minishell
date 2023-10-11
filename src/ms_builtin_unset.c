@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   ms_builtin_unset.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:35:16 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/09 20:02:14 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/11 22:47:27 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	search_env_and_unset(char *env_key)
+static void	ms_search_env_and_unset(char *env_key)
 {
 	t_list	*cur;
 	t_list	*prev;
@@ -22,7 +22,7 @@ static void	search_env_and_unset(char *env_key)
 	prev = NULL;
 	while (cur != NULL)
 	{
-		if (is_same_envkey(cur->content, env_key))
+		if (ms_is_same_envkey(cur->content, env_key))
 		{
 			if (prev == NULL)
 				g_shell.environ = cur->next;
@@ -41,7 +41,7 @@ static void	search_env_and_unset(char *env_key)
 	}
 }
 
-int	builtin_unset(char *argv[])
+int	ms_builtin_unset(char *argv[])
 {
 	int	return_status;
 	int	i;
@@ -50,13 +50,13 @@ int	builtin_unset(char *argv[])
 	i = 1;
 	while (argv[i] != NULL)
 	{
-		if (is_validenv(argv[i]) == false)
+		if (ms_is_validenv(argv[i]) == false)
 		{
 			printf(MSG_INVAL_ID, "unset", argv[i++]);
 			return_status = 1;
 			continue ;
 		}
-		search_env_and_unset(argv[i]);
+		ms_search_env_and_unset(argv[i]);
 		i++;
 	}
 	return (return_status);

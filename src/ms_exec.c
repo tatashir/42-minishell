@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ms_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 20:35:23 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/08 22:21:13 by tatashir         ###   ########.fr       */
+/*   Created: 2023/08/07 20:35:40 by tatashir          #+#    #+#             */
+/*   Updated: 2023/10/11 23:12:55 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_getenv_val(char *env_key)
+static int	ms_cmdsize(t_cmd *cmd)
 {
-	char	*env_line;
+	int	size;
 
-	env_line = ms_getenv_line(env_key);
-	if (env_line == NULL)
-		return (NULL);
-	return (ft_strchr(env_line, '=') + 1);
+	size = 0;
+	while (cmd != NULL)
+	{
+		size++;
+		cmd = cmd->next;
+	}
+	return (size);
+}
+
+void	ms_exec(t_cmd *cmd)
+{
+	int	(*builtin)(char *arg[]);
+
+	if (cmd == NULL)
+		return ;
+	builtin = ms_builtin_getfunc(cmd->arg[0]);
+	if (builtin != NULL && ms_cmdsize(cmd) == 1)
+		ms_exec_a_builtin(cmd, builtin);
+	else
+		ms_exec_in_child_process(cmd);
+	ms_clear_cmd_and_return_null(cmd);
 }
