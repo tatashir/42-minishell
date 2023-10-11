@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 01:00:15 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 00:05:20 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 01:12:49 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*ms_readline(void)
 {
 	char	*line;
 
-	ms_sigset_rl();
+	sigset_rl();
 	ms_sigset_noquit();
 	rl_done = 0;
 	rl_event_hook = NULL;
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[], char *envp[])
 			add_history(line);
 			token = ms_lexer(line);
 			g_shell.cmd = ms_parser(token);
-			ms_sigset_exec();
+			sigset_exec();
 			ms_exec(g_shell.cmd);
 			ms_clear_token(token);
 		}

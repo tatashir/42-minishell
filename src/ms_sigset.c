@@ -6,13 +6,13 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:37:33 by tatashir          #+#    #+#             */
-/*   Updated: 2023/08/07 20:37:34 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 01:12:57 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_sigset_rl(void)
+void	sigset_rl(void)
 {
 	t_sa	sa;
 
@@ -34,7 +34,7 @@ void	ms_sigset_noquit(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	ms_sigset_rl_heredoc(void)
+void	sigset_rl_heredoc(void)
 {
 	t_sa	sa;
 
@@ -45,7 +45,7 @@ void	ms_sigset_rl_heredoc(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	ms_sigset_exec(void)
+void	sigset_exec(void)
 {
 	t_sa	sa;
 

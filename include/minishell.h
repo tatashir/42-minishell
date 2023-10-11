@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:28:52 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 00:54:18 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 01:12:54 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ extern t_shell				g_shell;
 typedef struct sigaction	t_sa;
 
 void	init_global(char *envp[]);
-void	ms_sigset_rl(void);
-void	ms_sigset_rl_heredoc(void);
-void	ms_sigset_exec(void);
+void	sigset_rl(void);
+void	sigset_rl_heredoc(void);
+void	sigset_exec(void);
 void	ms_sigset_noquit(void);
 void	ms_sighandler_rl(int signum, siginfo_t *info, void *context);
 void	ms_sighandler_rl_heredoc(int signum, siginfo_t *info, void *context);

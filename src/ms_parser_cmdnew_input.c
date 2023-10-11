@@ -6,7 +6,7 @@
 /*   By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:37:04 by tatashir          #+#    #+#             */
-/*   Updated: 2023/10/12 00:25:02 by tatashir         ###   ########.fr       */
+/*   Updated: 2023/10/12 01:12:03 by tatashir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool	get_heredoc_txt(const char *eof, int fd)
 {
 	char	*buf;
 
-	ms_sigset_rl_heredoc();
+	sigset_rl_heredoc();
 	rl_event_hook = is_heredoc_sigint;
 	while (g_shell.heredoc_sigint == false)
 	{
