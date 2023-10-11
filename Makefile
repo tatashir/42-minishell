@@ -6,48 +6,48 @@
 #    By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 20:37:48 by tatashir          #+#    #+#              #
-#    Updated: 2023/10/12 00:56:36 by tatashir         ###   ########.fr        #
+#    Updated: 2023/10/12 01:38:40 by tatashir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= minishell
 
-SRC			= ms_main.c \
-			  ms_init.c \
-			  ms_sigset.c \
-			  ms_sighandler.c \
-			  ms_lexer.c \
-			  ms_lexer_gettoken.c \
-			  ms_lexer_string.c \
-			  ms_lexer_string_lst.c \
-			  ms_lexer_tokenlen.c \
-			  ms_parser.c \
-			  ms_parser_cmdnew.c \
-			  ms_parser_cmdnew_arg.c \
-			  ms_parser_cmdnew_input.c \
-			  ms_parser_cmdnew_output.c \
-			  ms_parser_cmdnew_fdsize.c \
-			  ms_getpath.c \
-			  ms_setpath.c \
-			  ms_exec.c \
-			  ms_exec_builtin.c \
-			  ms_exec_child.c \
-			  ms_fd.c \
-			  ms_env.c \
-			  ms_builtin_cd.c \
-			  ms_builtin_echo.c \
-			  ms_builtin_env.c \
-			  ms_builtin_exit.c \
-			  ms_builtin_export.c \
-			  ms_builtin_unset.c \
-			  ms_lstclear.c \
-			  ms_map_lst2map.c \
-			  ms_map_clear.c \
-			  ms_map_size.c \
-			  ms_strisdigit.c \
-			  ms_lexer_string_env.c \
-			  ms_builtin_pwd.c \
-			  ms_utils.c
+SRC			= main.c \
+			  init.c \
+			  sigset.c \
+			  sighandler.c \
+			  lexer.c \
+			  lexer_gettoken.c \
+			  lexer_string.c \
+			  lexer_string_lst.c \
+			  lexer_tokenlen.c \
+			  parser.c \
+			  parser_cmdnew.c \
+			  parser_cmdnew_arg.c \
+			  parser_cmdnew_input.c \
+			  parser_cmdnew_output.c \
+			  parser_cmdnew_fdsize.c \
+			  getpath.c \
+			  setpath.c \
+			  exec.c \
+			  exec_builtin.c \
+			  exec_child.c \
+			  fd.c \
+			  env.c \
+			  builtin_cd.c \
+			  builtin_echo.c \
+			  builtin_env.c \
+			  builtin_exit.c \
+			  builtin_export.c \
+			  builtin_unset.c \
+			  lstclear.c \
+			  map_lst2map.c \
+			  map_clear.c \
+			  map_size.c \
+			  strisdigit.c \
+			  lexer_string_env.c \
+			  builtin_pwd.c \
+			  utils.c
 
 SRCDIR		= ./src
 INCDIR		= ./include
