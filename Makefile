@@ -6,13 +6,48 @@
 #    By: tatashir <tatashir@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/07 20:37:48 by tatashir          #+#    #+#              #
-#    Updated: 2023/10/08 18:29:12 by tatashir         ###   ########.fr        #
+#    Updated: 2023/10/12 00:37:18 by tatashir         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= minishell
 
-SRC 		= 
+SRC			= ms_main.c \
+			  ms_init.c \
+			  ms_sigset.c \
+			  ms_sighandler.c \
+			  ms_lexer.c \
+			  ms_lexer_gettoken.c \
+			  ms_lexer_string.c \
+			  ms_lexer_string_env.c \
+			  ms_lexer_string_lst.c \
+			  ms_lexer_tokenlen.c \
+			  ms_parser.c \
+			  ms_parser_cmdnew.c \
+			  ms_parser_cmdnew_arg.c \
+			  ms_parser_cmdnew_input.c \
+			  ms_parser_cmdnew_output.c \
+			  ms_parser_cmdnew_fdsize.c \
+			  ms_getpath.c \
+			  ms_setpath.c \
+			  ms_exec.c \
+			  ms_exec_builtin.c \
+			  ms_exec_child.c \
+			  ms_fd.c \
+			  ms_env.c \
+			  ms_builtin_cd.c \
+			  ms_builtin_echo.c \
+			  ms_builtin_env.c \
+			  ms_builtin_exit.c \
+			  ms_builtin_export.c \
+			  ms_builtin_pwd.c \
+			  ms_builtin_unset.c \
+			  ms_lstclear.c \
+			  ms_map_lst2map.c \
+			  ms_map_clear.c \
+			  ms_map_size.c \
+			  ms_strisdigit.c \
+			  ms_utils.c
 
 SRCDIR		= ./src
 INCDIR		= ./include
